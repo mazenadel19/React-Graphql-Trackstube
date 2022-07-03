@@ -8,7 +8,7 @@ import HeadsetIcon from "@mui/icons-material/Headset";
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" color="secondary">
+      <AppBar position="sticky" color="primary" enableColorOnDark>
         <Toolbar>
           <IconButton
             size="large"
@@ -19,8 +19,12 @@ export default function ButtonAppBar() {
           >
             <HeadsetIcon />
           </IconButton>
-          <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
-            Myspace
+          <Typography
+            variant="h6"
+            component="h1"
+            sx={{ flexGrow: 1, fontWeight: "bold" }}
+          >
+            My Space
           </Typography>
         </Toolbar>
       </AppBar>
