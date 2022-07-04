@@ -1,6 +1,7 @@
 import { AddBoxOutlined, Link } from "@mui/icons-material";
 import { Button, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
+import { btnHover } from "../SongList/Song";
 import AddSongDialog from "./AddSongDialog";
 
 const styles = {
@@ -8,6 +9,14 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
+  addBtn: [
+    { m: 1 },
+    (theme) => ({
+      "&:hover": {
+        backgroundColor: theme.palette.secondary.main,
+      },
+    }),
+  ],
 };
 
 const AddSong = () => {
@@ -34,7 +43,7 @@ const AddSong = () => {
       />
 
       <Button
-        sx={{ m: 1 }}
+        sx={styles.addBtn}
         variant="contained"
         color="primary"
         endIcon={<AddBoxOutlined />}

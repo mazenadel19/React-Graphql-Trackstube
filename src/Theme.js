@@ -5,7 +5,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: teal,
-    secondary: purple
+    secondary: purple,
   },
 });
 

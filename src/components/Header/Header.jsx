@@ -8,7 +8,7 @@ import HeadsetIcon from "@mui/icons-material/Headset";
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" color="primary" enableColorOnDark>
+      <AppBar position="fixed" color="primary" enableColorOnDark>
         <Toolbar>
           <IconButton
             size="large"
