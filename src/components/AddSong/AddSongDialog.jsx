@@ -16,8 +16,9 @@ const sty = {
   },
 };
 
-function AddSongDialog({ url, showDialog,setShowDialog }) {
-   
+function AddSongDialog({ song, showDialog, setShowDialog }) {
+  const { thumbnail, duration, title, artist, url } = song;
+
   function handleCloseDialog() {
     return setShowDialog(false);
   }
@@ -27,16 +28,13 @@ function AddSongDialog({ url, showDialog,setShowDialog }) {
       <DialogTitle>Edit Song</DialogTitle>
 
       <DialogContent>
-        <img
-          src="https://bit.ly/3a6SEZT"
-          alt="song thumbnail"
-          style={sty.thumbnail}
-        />
+        <img src={thumbnail} alt="song thumbnail" style={sty.thumbnail} />
         <TextField
           variant="standard"
           margin="dense"
           name="title"
           label="Title"
+          value={title}
           fullWidth
         />
         <TextField
@@ -44,6 +42,7 @@ function AddSongDialog({ url, showDialog,setShowDialog }) {
           margin="dense"
           name="artist"
           label="Artist"
+          value={artist}
           fullWidth
         />
         <TextField
@@ -51,6 +50,7 @@ function AddSongDialog({ url, showDialog,setShowDialog }) {
           margin="dense"
           name="thumbnail"
           label="Thumbnail"
+          value={thumbnail}
           fullWidth
         />
       </DialogContent>
@@ -59,7 +59,7 @@ function AddSongDialog({ url, showDialog,setShowDialog }) {
         <Button onClick={handleCloseDialog} color="secondary">
           Cancel
         </Button>
-        <Button  color="primary" variant="outlined">
+        <Button color="primary" variant="outlined">
           Add Song
         </Button>
       </DialogActions>

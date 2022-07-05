@@ -37,7 +37,6 @@ const AddSong = () => {
   const [url, setUrl] = useState("");
   const [playable, setPlayable] = useState(false);
   const [song, setSong] = useState(initialSongState);
-
   const HandleAddSongsInput = (e) => {
     setUrl(e.target.value);
     const IsPlayable = YouTubePlayer.canPlay(e.target.value);
@@ -48,14 +47,14 @@ const AddSong = () => {
     const nestedPlayer = player.player.player;
     const { video_id, title, author } = nestedPlayer.getVideoData();
     const duration = nestedPlayer.getDuration();
-    const thumbnail = `http:img.youtube.com/vi/${video_id}/0.jpg`;
+    const thumbnail = `https://img.youtube.com/vi/${video_id}/0.jpg`;
     setSong({ thumbnail, duration, title, artist: author, url });
   };
 
   return (
     <div style={styles.container}>
       <AddSongDialog
-        url={url}
+        song={song}
         setShowDialog={setShowDialog}
         showDialog={showDialog}
       />
