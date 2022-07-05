@@ -16,8 +16,8 @@ const sty = {
   },
 };
 
-function AddSongDialog({ showDialog,setShowDialog }) {
-  
+function AddSongDialog({ url, showDialog,setShowDialog }) {
+   
   function handleCloseDialog() {
     return setShowDialog(false);
   }

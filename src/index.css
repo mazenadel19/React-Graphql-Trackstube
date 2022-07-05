@@ -1,0 +1,12 @@
+body {
+  background-color: #2a2a2a !important;
+}
+
+#iframe-root {
+  position: absolute;
+  z-index: -1;
+}
+
+#iframe-root .Iframe_Wrapper div{
+  height: 0 !important;
+}

@@ -1,8 +1,8 @@
 # React Graphql Myspace
 
-A music  sharing website
+A music sharing website
 
-Share your favorite youtube or soundcloud music with the world 
+Share your favorite youtube tracks with the world 
 
 ## 🚀 Getting Started
 

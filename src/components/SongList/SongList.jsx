@@ -1,25 +1,22 @@
+import { useQuery } from "@apollo/client";
+import { GET_SONGS } from "../../graphql/queries";
 import Song from "./Song";
 import Spinner from "./Spinner";
 
-const dummySong = {
-  title: "title",
-  artist: "artist",
-  thumbnail: "https://bit.ly/3a6SEZT",
-};
-
-const songsArray = Array.from({ length: 10 }, () => dummySong);
-
 const SongList = () => {
-  let loading = false;
-
+  const { loading, error, data } = useQuery(GET_SONGS)
+  
   if (loading) {
     return <Spinner />;
   }
 
+  if (error) return <p>{error.message}</p>
+
+
   return (
     <>
-      {songsArray.map(({ title, artist, thumbnail }, index) => (
-        <Song key={index} title={title} artist={artist} thumbnail={thumbnail}/>
+      {data.songs.map(({ title, artist, thumbnail, id }) => (
+        <Song key={id} title={title} artist={artist} thumbnail={thumbnail} />
       ))}
     </>
   );

@@ -6,7 +6,6 @@ import SongList from "./components/SongList/SongList";
 import SongPlayer from "./components/SongPlayer/SongPlayer";
 
 const styles = {
-  wrapper: { backgroundColor: "#2a2a2a" },
   containerDesktop: {
     px: 2,
     pt: 11,
@@ -34,12 +33,11 @@ function App() {
   const greaterThanMedium = useMediaQuery((theme) =>
     theme.breakpoints.up("md")
   );
-  const greaterThanSmall = useMediaQuery((theme) =>
-    theme.breakpoints.up("sm")
-  );
+  const greaterThanSmall = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
   return (
-    <div style={styles.wrapper}>
+    <div>
+      <div id="iframe-root"></div>
       <Hidden only="xs">
         <Header />
       </Hidden>
