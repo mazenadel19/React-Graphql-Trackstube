@@ -24,7 +24,7 @@ const styles = {
   ],
 };
 
-const initialSongState = {
+export const initialSongState = {
   thumbnail: "",
   duration: 0,
   title: "",
@@ -37,13 +37,13 @@ const AddSong = () => {
   const [url, setUrl] = useState("");
   const [playable, setPlayable] = useState(false);
   const [song, setSong] = useState(initialSongState);
-  const HandleAddSongsInput = (e) => {
+  const HandleAddInput = (e) => {
     setUrl(e.target.value);
     const IsPlayable = YouTubePlayer.canPlay(e.target.value);
     setPlayable(IsPlayable);
   };
 
-  const handleEditSong = ({ player }) => {
+  const handleFetchSongData = ({ player }) => {
     const nestedPlayer = player.player.player;
     const { video_id, title, author } = nestedPlayer.getVideoData();
     const duration = nestedPlayer.getDuration();
@@ -55,12 +55,14 @@ const AddSong = () => {
     <div style={styles.container}>
       <AddSongDialog
         song={song}
+        setSong={setSong}
+        setUrl={setUrl}
         setShowDialog={setShowDialog}
         showDialog={showDialog}
       />
 
       <TextField
-        onChange={HandleAddSongsInput}
+        onChange={HandleAddInput}
         value={url}
         sx={{ m: 1 }}
         placeholder="Add Youtube URL"
@@ -93,7 +95,7 @@ const AddSong = () => {
           <Iframe
             playable={playable}
             url={url}
-            handleEditSong={handleEditSong}
+            handleEditSong={handleFetchSongData}
           />,
           document.getElementById("iframe-root")
         )}

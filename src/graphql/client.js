@@ -3,8 +3,19 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 
+
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+
+
+const link = new WebSocketLink(
+  new SubscriptionClient("ws://react-graphql-myspace.herokuapp.com/v1/graphql", {
+    reconnect: true
+  })
+);
+
 const client = new ApolloClient({
-  uri: "https://react-graphql-myspace.herokuapp.com/v1/graphql",
+  link,
   cache: new InMemoryCache(),
 });
 

@@ -1,10 +1,10 @@
-import { useQuery } from "@apollo/client";
-import { GET_SONGS } from "../../graphql/queries";
+import { useSubscription } from "@apollo/client";
+import { GET_SONGS_SUBSCRIPTION } from "../../graphql/subscriptions";
 import Song from "./Song";
 import Spinner from "./Spinner";
 
 const SongList = () => {
-  const { loading, error, data } = useQuery(GET_SONGS)
+  const { loading, error, data } = useSubscription(GET_SONGS_SUBSCRIPTION)
   
   if (loading) {
     return <Spinner />;
