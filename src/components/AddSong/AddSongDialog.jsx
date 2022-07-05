@@ -17,7 +17,7 @@ const sty = {
 };
 
 function AddSongDialog({ song, showDialog, setShowDialog }) {
-  const { thumbnail, duration, title, artist, url } = song;
+  const { thumbnail, title, artist } = song;
 
   function handleCloseDialog() {
     return setShowDialog(false);
