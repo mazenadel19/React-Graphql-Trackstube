@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 
 import { ADD_SONG } from "../../graphql/mutations";
-import { GET_SONGS } from "../../graphql/queries";
 
 import { initialSongState } from "./AddSong";
 
@@ -24,12 +23,7 @@ const sty = {
 
 function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
   const { thumbnail, title, artist } = song;
-  const [addSong, { error }] = useMutation(ADD_SONG,
-    {
-      refetchQueries: [
-        { query: GET_SONGS }
-      ]
-    });
+  const [addSong] = useMutation(ADD_SONG);
 
   const handleCloseDialog = () => {
     return setShowDialog(false);
@@ -60,10 +54,6 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
     }
   };
 
-  const handleInputError = (field) => {
-    return error?.graphQLErrors[0]?.extensions?.path?.includes(field);
-  };
-
   return (
     <Dialog open={showDialog} onClose={handleCloseDialog} style={sty.dialog}>
       <DialogTitle>Edit Song</DialogTitle>
@@ -78,8 +68,8 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
           label="Title"
           value={title}
           fullWidth
-          error={handleInputError("title")}
-          helperText={handleInputError("title") && "Fill out this field"}
+          error={!song["title"]}
+          helperText={!song["title"] && "Fill out this field"}
         />
         <TextField
           onChange={handleEditSong}
@@ -89,8 +79,8 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
           label="Artist"
           value={artist}
           fullWidth
-          error={handleInputError("artist")}
-          helperText={handleInputError("artist") && "Fill out this field"}
+          error={!song["artist"]}
+          helperText={!song["artist"] && "Fill out this field"}
         />
         <TextField
           onChange={handleEditSong}
@@ -100,8 +90,8 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
           label="Thumbnail"
           value={thumbnail}
           fullWidth
-          error={handleInputError("thumbnail")}
-          helperText={handleInputError("thumbnail") && "Fill out this field"}
+          error={!song["thumbnail"]}
+          helperText={!song["thumbnail"] && "Fill out this field"}
         />
       </DialogContent>
 

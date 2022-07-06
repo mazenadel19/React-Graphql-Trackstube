@@ -24,7 +24,7 @@ export default function ButtonAppBar() {
             component="h1"
             sx={{ flexGrow: 1, fontWeight: "bold" }}
           >
-            My Space
+            TracksTube
           </Typography>
         </Toolbar>
       </AppBar>
