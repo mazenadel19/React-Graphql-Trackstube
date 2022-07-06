@@ -1,4 +1,5 @@
 import { Grid, Hidden, useMediaQuery } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import AddSong from "./components/AddSong/AddSong";
 import Header from "./components/Header/Header";
 import QueuedSongList from "./components/QueuedSongList/QueuedSongList";
@@ -21,6 +22,7 @@ const styles = {
     mobile: {
       left: 0,
       bottom: 0,
+      transition: "left 5s ease",
     },
     desktop: {
       right: 0,
@@ -34,6 +36,26 @@ function App() {
     theme.breakpoints.up("md")
   );
   const greaterThanSmall = useMediaQuery((theme) => theme.breakpoints.up("sm"));
+
+  const [scrolling, setScrolling] = useState(false);
+  let first = useRef(true);
+
+  useEffect(() => {
+    if (first.current) {
+      window.addEventListener("scroll", () => {
+        setScrolling(true);
+      });
+      first.current = false;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (scrolling) {
+      setTimeout(() => {
+        setScrolling(false);
+      }, 5000);
+    }
+  });
 
   return (
     <div>
@@ -57,12 +79,13 @@ function App() {
           sx={
             greaterThanMedium
               ? {
-                  ...styles.rightSection.desktop,
                   ...styles.rightSection.common,
+                  ...styles.rightSection.desktop,
                 }
               : {
-                  ...styles.rightSection.mobile,
                   ...styles.rightSection.common,
+                  ...styles.rightSection.mobile,
+                  left: scrolling ? "90%" : "0",
                 }
           }
         >

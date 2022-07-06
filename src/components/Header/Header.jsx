@@ -5,6 +5,19 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import HeadsetIcon from "@mui/icons-material/Headset";
 
+const styles = {
+  logoWrapper: {
+    display: "flex",
+    gap: "5px",
+    alignItems: "center",
+  },
+  tube: {
+    background: "red",
+    padding: "1px",
+    borderRadius: "5px",
+  },
+};
+
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -24,7 +37,9 @@ export default function ButtonAppBar() {
             component="h1"
             sx={{ flexGrow: 1, fontWeight: "bold" }}
           >
-            TracksTube
+            <div style={styles.logoWrapper}>
+              Tracks<span style={styles.tube}>Tube</span>
+            </div>
           </Typography>
         </Toolbar>
       </AppBar>

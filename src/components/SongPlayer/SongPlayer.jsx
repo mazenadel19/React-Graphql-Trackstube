@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { SongContext } from "../../context/SongsProvider";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,14 +10,9 @@ import Typography from "@mui/material/Typography";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import { Slider } from "@mui/material";
-import { btnHover } from "../SongList/Song";
+import { Slider} from "@mui/material";
 
-const dummySong = {
-  title: "title",
-  artist: "artist",
-  thumbnail: "https://bit.ly/3a6SEZT",
-};
+import { btnHover } from "../SongList/Song";
 
 const styles = {
   card: { display: "flex", justifyContent: "space-around", m: 1, boxShadow: 3 },
@@ -26,19 +24,23 @@ const styles = {
 };
 
 export default function SongPlayer() {
+  const { songsState } = useContext(SongContext);
+  const { song } = songsState;
+  const { artist, duration, thumbnail, title } = song;
+
   return (
     <Card sx={styles.card}>
       <Box sx={styles.cardWrapper}>
         <CardContent sx={styles.cardContent}>
           <Typography component="div" variant="h5">
-            {dummySong.title}
+            {title}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            {dummySong.artist}
+            {artist}
           </Typography>
         </CardContent>
 
@@ -50,10 +52,10 @@ export default function SongPlayer() {
             <PlayArrowIcon sx={styles.playBtn} />
           </IconButton>
           <IconButton aria-label="next" sx={styles.btnHover}>
-            <SkipNextIcon  />
+            <SkipNextIcon />
           </IconButton>
           <Typography variant="subtitle1" color="text.secondary" component="p">
-            00:01:30
+            {duration}
           </Typography>
         </Box>
         <Slider type="range" min={0} max={1} step={0.01} size="small" />
@@ -62,8 +64,8 @@ export default function SongPlayer() {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={dummySong.thumbnail}
-        alt={`${dummySong.title} album cover`}
+        image={thumbnail}
+        alt={`${title} song thumbnail`}
       />
     </Card>
   );
