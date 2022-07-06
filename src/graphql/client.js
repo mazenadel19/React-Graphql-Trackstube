@@ -9,7 +9,7 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 
 
 const link = new WebSocketLink(
-  new SubscriptionClient("ws://react-graphql-myspace.herokuapp.com/v1/graphql", {
+  new SubscriptionClient("wss://react-graphql-myspace.herokuapp.com/v1/graphql", {
     reconnect: true
   })
 );
