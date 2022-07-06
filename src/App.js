@@ -21,8 +21,7 @@ const styles = {
     },
     mobile: {
       left: 0,
-      bottom: 0,
-      transition: "left 5s ease",
+      transition: "bottom 5s ease",
       paddingLeft: '0 !important',
     },
     desktop: {
@@ -86,7 +85,7 @@ function App() {
               : {
                   ...styles.rightSection.common,
                   ...styles.rightSection.mobile,
-                  left: scrolling ? "90%" : "0",
+                  bottom: scrolling ? "-50%" : "0",
                 }
           }
         >

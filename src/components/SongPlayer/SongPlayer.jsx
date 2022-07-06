@@ -21,16 +21,27 @@ const styles = {
   btnWrapper: { display: "flex", alignItems: "center", pl: 1, pb: 1 },
   playBtn: { height: 38, width: 38 },
   btnHover: btnHover[0],
+  cardContentLessThan420: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    gridColumnGap: "5px",
+  },
+  playerHeader: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
 };
 
 export default function SongPlayer() {
   const { songsState } = useContext(SongContext);
   const { song } = songsState;
-  const { artist, duration,  thumbnail, title,  } = song;
+  const { artist, duration, thumbnail, title } = song;
   const greaterThanMedium = useMediaQuery((theme) =>
     theme.breakpoints.up("md")
   );
-  const minWidth420 = useMediaQuery("(min-width:420px)");
+  const greaterThan420PX = useMediaQuery("(min-width:420px)");
 
   return (
     <Card
@@ -38,18 +49,40 @@ export default function SongPlayer() {
         greaterThanMedium ? styles.card : { ...styles.card, mx: 0, mb: "15px" }
       }
     >
-      <Box sx={styles.cardWrapper}>
-        <CardContent sx={styles.cardContent}>
-          <Typography component="div" variant="h5">
-            {title}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            component="div"
-          >
-            {artist}
-          </Typography>
+      <Box
+        sx={
+          greaterThan420PX
+            ? styles.cardWrapper
+            : { ...styles.cardWrapper, alignItems: "center" }
+        }
+      >
+        <CardContent
+          sx={
+            greaterThan420PX
+              ? styles.cardContent
+              : styles.cardContentLessThan420
+          }
+        >
+          <div style={greaterThan420PX ? {} : styles.playerHeader}>
+            <Typography component="div" variant="h5">
+              {title}
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+              component="div"
+            >
+              {artist}
+            </Typography>
+          </div>
+          {!greaterThan420PX && (
+            <CardMedia
+              component="img"
+              sx={{ width: 151 }}
+              image={thumbnail}
+              alt={`${title} song thumbnail`}
+            />
+          )}
         </CardContent>
 
         <Box sx={styles.btnWrapper}>
@@ -69,7 +102,7 @@ export default function SongPlayer() {
         <Slider type="range" min={0} max={1} step={0.01} size="small" />
       </Box>
 
-      {minWidth420 && (
+      {greaterThan420PX && (
         <CardMedia
           component="img"
           sx={{ width: 151 }}
