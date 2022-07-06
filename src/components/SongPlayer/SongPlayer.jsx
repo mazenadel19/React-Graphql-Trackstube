@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import { Slider} from "@mui/material";
+import { Slider, useMediaQuery } from "@mui/material";
 
 import { btnHover } from "../SongList/Song";
 
@@ -26,10 +26,18 @@ const styles = {
 export default function SongPlayer() {
   const { songsState } = useContext(SongContext);
   const { song } = songsState;
-  const { artist, duration, thumbnail, title } = song;
+  const { artist, duration,  thumbnail, title,  } = song;
+  const greaterThanMedium = useMediaQuery((theme) =>
+    theme.breakpoints.up("md")
+  );
+  const minWidth420 = useMediaQuery("(min-width:420px)");
 
   return (
-    <Card sx={styles.card}>
+    <Card
+      sx={
+        greaterThanMedium ? styles.card : { ...styles.card, mx: 0, mb: "15px" }
+      }
+    >
       <Box sx={styles.cardWrapper}>
         <CardContent sx={styles.cardContent}>
           <Typography component="div" variant="h5">
@@ -61,12 +69,14 @@ export default function SongPlayer() {
         <Slider type="range" min={0} max={1} step={0.01} size="small" />
       </Box>
 
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image={thumbnail}
-        alt={`${title} song thumbnail`}
-      />
+      {minWidth420 && (
+        <CardMedia
+          component="img"
+          sx={{ width: 151 }}
+          image={thumbnail}
+          alt={`${title} song thumbnail`}
+        />
+      )}
     </Card>
   );
 }

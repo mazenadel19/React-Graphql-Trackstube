@@ -23,6 +23,7 @@ const styles = {
       left: 0,
       bottom: 0,
       transition: "left 5s ease",
+      paddingLeft: '0 !important',
     },
     desktop: {
       right: 0,
