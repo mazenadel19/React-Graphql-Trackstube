@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { SongContext } from "../../context/SongsProvider";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,6 +12,8 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { Slider, useMediaQuery } from "@mui/material";
 
 import { btnHover } from "../SongList/Song";
+import { Pause } from "@mui/icons-material";
+import { SongContext } from "../../context/SongsProvider";
 
 const styles = {
   card: { display: "flex", justifyContent: "space-around", m: 1, boxShadow: 3 },
@@ -35,13 +36,18 @@ const styles = {
 };
 
 export default function SongPlayer() {
-  const { songsState } = useContext(SongContext);
-  const { song } = songsState;
+  const { songState, songDispatch } = useContext(SongContext);
+  const { song, isPlaying } = songState;
   const { artist, duration, thumbnail, title } = song;
+
   const greaterThanMedium = useMediaQuery((theme) =>
     theme.breakpoints.up("md")
   );
   const greaterThan420PX = useMediaQuery("(min-width:420px)");
+
+  const hanndleTogglePlay = () => {
+    songDispatch({ type: "TOGGLE_SONG" });
+  };
 
   return (
     <Card
@@ -89,8 +95,12 @@ export default function SongPlayer() {
           <IconButton aria-label="previous" sx={styles.btnHover}>
             <SkipPreviousIcon />
           </IconButton>
-          <IconButton aria-label="play/pause" sx={styles.btnHover}>
-            <PlayArrowIcon sx={styles.playBtn} />
+          <IconButton
+            aria-label="play/pause"
+            sx={styles.btnHover}
+            onClick={hanndleTogglePlay}
+          >
+            {isPlaying ? <Pause sx={styles.playBtn}/>:<PlayArrowIcon sx={styles.playBtn} />}
           </IconButton>
           <IconButton aria-label="next" sx={styles.btnHover}>
             <SkipNextIcon />

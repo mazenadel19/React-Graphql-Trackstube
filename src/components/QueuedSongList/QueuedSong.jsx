@@ -1,5 +1,7 @@
 import { Delete } from "@mui/icons-material";
 import { Avatar, IconButton, Typography } from "@mui/material";
+import { useContext } from "react";
+import { SongContext } from "../../context/SongsProvider";
 
 const styles = {
   container: {
@@ -9,7 +11,9 @@ const styles = {
     alignItems: "center",
     gap: 12,
     marginTop: 10,
-    // backgroundColor: "#1e1e1e",
+    backgroundColor: "#1e1e1e",
+    padding: "5px",
+    borderRadius: "4px",
   },
   songInfoContainer: {
     overflow: "hidden",
@@ -19,7 +23,14 @@ const styles = {
   text: { textOverflow: "ellipsis", overflow: "hidden" },
 };
 
-export default function QueuedSong({ title, artist, thumbnail }) {
+export default function QueuedSong({ song }) {
+  const { title, artist, thumbnail } = song;
+  const { songDispatch } = useContext(SongContext);
+
+  const removeFromQueue = () => {
+    songDispatch({ type: "REMOVE_FROM_QUEUE", id:song.id });
+  };
+
   return (
     <div style={styles.container}>
       <Avatar src={thumbnail} sx={styles.thumbnail} />
@@ -31,7 +42,7 @@ export default function QueuedSong({ title, artist, thumbnail }) {
           {artist}
         </Typography>
       </div>
-      <IconButton>
+      <IconButton onClick={removeFromQueue}>
         <Delete color="error" />
       </IconButton>
     </div>

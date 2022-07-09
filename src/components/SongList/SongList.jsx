@@ -5,18 +5,16 @@ import Spinner from "./Spinner";
 
 const SongList = () => {
   const { loading, error, data } = useSubscription(GET_SONGS_SUBSCRIPTION)
-  
   if (loading) {
     return <Spinner />;
   }
 
   if (error) return <p>{error.message}</p>
 
-
   return (
     <>
-      {data.songs.map(({ title, artist, thumbnail, id }) => (
-        <Song key={id} title={title} artist={artist} thumbnail={thumbnail} />
+      {data.songs.map(( song ) => (
+         <Song key={song.id} song={song} />
       ))}
     </>
   );

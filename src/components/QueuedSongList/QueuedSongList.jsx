@@ -1,4 +1,6 @@
 import { Typography } from "@mui/material";
+import { useContext } from "react";
+import { SongContext } from "../../context/SongsProvider";
 import QueuedSong from "./QueuedSong";
 
 const styles = {
@@ -7,22 +9,16 @@ const styles = {
   },
 };
 
-const dummySong = {
-  title: "title",
-  artist: "artist",
-  thumbnail: "https://bit.ly/3a6SEZT",
-};
-
-const songsArray = Array.from({ length: 5 }, () => dummySong);
-
 const QueuedSongList = () => {
+  const { songState } = useContext(SongContext);
+
   return (
     <div style={styles.container}>
       <Typography variant="button" color="text.secondary">
-        queue (5)
+        queue ({songState.queue.length})
       </Typography>
-      {songsArray.map(({ title, artist, thumbnail }, index) => (
-        <QueuedSong key={index} title={title} artist={artist} thumbnail={thumbnail}/>
+      {songState.queue.map((song) => (
+        <QueuedSong key={song.id} song={song} />
       ))}
     </div>
   );

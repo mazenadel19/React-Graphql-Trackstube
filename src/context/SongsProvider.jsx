@@ -15,15 +15,17 @@ const initialState = {
     url: "https://www.youtube.com/watch?v=IzOF6_7nKAk",
   },
   isPlaying: false,
+  queue:[]
 };
 
 const SongsProvider = ({ children }) => {
-  const [songsState, songsDispatch] = useReducer(SongsReducer, initialState);
+  const [songState, songDispatch] = useReducer(SongsReducer, initialState);
 
   const values = {
-    songsState,
-    songsDispatch,
+    songState,
+    songDispatch,
   };
+
   return <SongContext.Provider value={values}>{children}</SongContext.Provider>;
 };
 
