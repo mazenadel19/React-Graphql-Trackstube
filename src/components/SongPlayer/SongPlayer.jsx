@@ -38,12 +38,14 @@ const styles = {
 export default function SongPlayer() {
   const { songState, songDispatch } = useContext(SongContext);
   const { song, isPlaying } = songState;
-  const { artist, duration, thumbnail, title } = song;
-
   const greaterThanMedium = useMediaQuery((theme) =>
     theme.breakpoints.up("md")
   );
   const greaterThan420PX = useMediaQuery("(min-width:420px)");
+
+  if (!song) return;
+
+  const { artist, duration, thumbnail, title } = song && song;
 
   const hanndleTogglePlay = () => {
     songDispatch({ type: "TOGGLE_SONG" });
@@ -100,7 +102,11 @@ export default function SongPlayer() {
             sx={styles.btnHover}
             onClick={hanndleTogglePlay}
           >
-            {isPlaying ? <Pause sx={styles.playBtn}/>:<PlayArrowIcon sx={styles.playBtn} />}
+            {isPlaying ? (
+              <Pause sx={styles.playBtn} />
+            ) : (
+              <PlayArrowIcon sx={styles.playBtn} />
+            )}
           </IconButton>
           <IconButton aria-label="next" sx={styles.btnHover}>
             <SkipNextIcon />

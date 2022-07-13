@@ -63,7 +63,7 @@ export default function Song({ song }) {
           </CardContent>
 
           <CardActions>
-            {songState.song.title === title ? (
+            {songState?.song?.title === title ? (
               songState.isPlaying ? (
                 <IconButton
                   onClick={pauseSong}

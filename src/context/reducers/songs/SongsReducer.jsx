@@ -16,6 +16,11 @@ const SongsReducer = (state, action) => {
       const newQueue = state.queue.filter((song) => song.id !== action.id);
       return { ...state, queue: newQueue };
     }
+
+    case "INITIAL_RENDER":{
+      return { ...state, song: action.song };
+    }
+
     default:
       return state;
   }
