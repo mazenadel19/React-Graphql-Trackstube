@@ -1,5 +1,9 @@
+import { useMutation } from "@apollo/client";
+
 import { Delete } from "@mui/icons-material";
 import { Avatar, IconButton, Typography } from "@mui/material";
+
+import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
 
 const styles = {
   container: {
@@ -9,7 +13,9 @@ const styles = {
     alignItems: "center",
     gap: 12,
     marginTop: 10,
-    // backgroundColor: "#1e1e1e",
+    backgroundColor: "#1e1e1e",
+    padding: "5px",
+    borderRadius: "4px",
   },
   songInfoContainer: {
     overflow: "hidden",
@@ -19,7 +25,20 @@ const styles = {
   text: { textOverflow: "ellipsis", overflow: "hidden" },
 };
 
-export default function QueuedSong({ title, artist, thumbnail }) {
+export default function QueuedSong({ song }) {
+  const { title, artist, thumbnail } = song;
+  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
+    onCompleted: (data) => {
+      localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
+    },
+  });
+
+  const removeFromQueue = () => {
+    addOrRemoveFromQueue({
+      variables: { input: { ...song, __typename: "Song" } },
+    });
+  };
+
   return (
     <div style={styles.container}>
       <Avatar src={thumbnail} sx={styles.thumbnail} />
@@ -31,7 +50,7 @@ export default function QueuedSong({ title, artist, thumbnail }) {
           {artist}
         </Typography>
       </div>
-      <IconButton>
+      <IconButton onClick={removeFromQueue}>
         <Delete color="error" />
       </IconButton>
     </div>

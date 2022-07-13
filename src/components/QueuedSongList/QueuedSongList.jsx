@@ -1,4 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { Typography } from "@mui/material";
+import { GET_QUEUED_SONGS } from "../../graphql/queries";
 import QueuedSong from "./QueuedSong";
 
 const styles = {
@@ -7,22 +9,16 @@ const styles = {
   },
 };
 
-const dummySong = {
-  title: "title",
-  artist: "artist",
-  thumbnail: "https://bit.ly/3a6SEZT",
-};
-
-const songsArray = Array.from({ length: 5 }, () => dummySong);
-
 const QueuedSongList = () => {
+  const { data } = useQuery(GET_QUEUED_SONGS);
+  
   return (
     <div style={styles.container}>
       <Typography variant="button" color="text.secondary">
-        queue (5)
+        queue ({data.queue.length})
       </Typography>
-      {songsArray.map(({ title, artist, thumbnail }, index) => (
-        <QueuedSong key={index} title={title} artist={artist} thumbnail={thumbnail}/>
+      {data.queue.map((song) => (
+        <QueuedSong key={song.id} song={song} />
       ))}
     </div>
   );
