@@ -45,7 +45,7 @@ export default function SongPlayer() {
 
   if (!song) return;
 
-  const { artist, duration, thumbnail, title } = song && song;
+  const { artist, duration, thumbnail, title } = song;
 
   const hanndleTogglePlay = () => {
     songDispatch({ type: "TOGGLE_SONG" });

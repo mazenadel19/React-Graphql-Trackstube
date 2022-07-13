@@ -30,14 +30,13 @@ const styles = {
 
 export default function Song({ song }) {
   const { songState, songDispatch } = useContext(SongContext);
-  const { title, artist, thumbnail } = song;
+  const { title, artist, thumbnail, id } = song;
 
-  const playSong = () => {
-    songDispatch({ type: "PLAY_SONG", song });
-  };
-
-  const pauseSong = () => {
-    songDispatch({ type: "PAUSE_SONG", song });
+  const handleSong = () => {
+    songDispatch({
+      type: songState.isPlaying ? "PAUSE_SONG" : "PLAY_SONG",
+      song,
+    });
   };
 
   const saveToQueue = () => {
@@ -63,37 +62,19 @@ export default function Song({ song }) {
           </CardContent>
 
           <CardActions>
-            {songState?.song?.title === title ? (
-              songState.isPlaying ? (
-                <IconButton
-                  onClick={pauseSong}
-                  size="small"
-                  color="primary"
-                  sx={styles.btnHover}
-                >
-                  <Pause />
-                </IconButton>
+            <IconButton
+              onClick={handleSong}
+              size="small"
+              color="primary"
+              sx={styles.btnHover}
+            >
+              {songState?.song?.id === id && songState.isPlaying ? (
+                <Pause />
               ) : (
-                <IconButton
-                  onClick={playSong}
-                  size="small"
-                  color="primary"
-                  sx={styles.btnHover}
-                >
-                  <PlayArrow />
-                </IconButton>
-              )
-            ) : (
-              <IconButton
-                onClick={playSong}
-                size="small"
-                color="primary"
-                sx={styles.btnHover}
-              >
                 <PlayArrow />
-              </IconButton>
-            )}
-
+              )}
+            </IconButton>
+      
             <IconButton
               size="small"
               color="primary"
