@@ -7,7 +7,6 @@ export const SongContext = createContext({});
 const initialState = {
   song: '',
   isPlaying: false,
-  queue:[]
 };
 
 const SongsProvider = ({ children }) => {

@@ -1,5 +1,8 @@
 import { useContext } from "react";
-import { PlayArrow, Save } from "@mui/icons-material";
+
+import { useMutation } from "@apollo/client";
+
+import { PlayArrow, Save, Pause } from "@mui/icons-material";
 import {
   Card,
   CardActions,
@@ -9,9 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Pause } from "@mui/icons-material";
-
 import { SongContext } from "../../context/SongsProvider";
+
+import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
+
 
 export const btnHover = [
   (theme) => ({
@@ -31,18 +35,23 @@ const styles = {
 export default function Song({ song }) {
   const { songState, songDispatch } = useContext(SongContext);
   const { title, artist, thumbnail, id } = song;
+  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
+    onCompleted: (data) => {
+      localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
+    },
+  });
 
-  const handleSong = () => {
+
+  const playPauseSong = () => {
     songDispatch({
       type: songState.isPlaying ? "PAUSE_SONG" : "PLAY_SONG",
       song,
     });
   };
 
-  const saveToQueue = () => {
-    songDispatch({
-      type: "SAVE_TO_QUEUE",
-      song: { ...song, id: new Date().getTime() + "_" + song.id },
+  const saveOrRemoveFromQueue = () => {
+    addOrRemoveFromQueue({
+      variables: { input: { ...song, __typename: "Song" } },
     });
   };
 
@@ -63,7 +72,7 @@ export default function Song({ song }) {
 
           <CardActions>
             <IconButton
-              onClick={handleSong}
+              onClick={playPauseSong}
               size="small"
               color="primary"
               sx={styles.btnHover}
@@ -74,13 +83,12 @@ export default function Song({ song }) {
                 <PlayArrow />
               )}
             </IconButton>
-      
+
             <IconButton
               size="small"
               color="primary"
               sx={styles.btnHover}
-              onClick={saveToQueue}
-              disabled={songState.queue.length === 5}
+              onClick={saveOrRemoveFromQueue}
             >
               <Save />
             </IconButton>

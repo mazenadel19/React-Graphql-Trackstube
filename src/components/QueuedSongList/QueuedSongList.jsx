@@ -1,6 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { Typography } from "@mui/material";
-import { useContext } from "react";
-import { SongContext } from "../../context/SongsProvider";
+import { GET_QUEUED_SONGS } from "../../graphql/queries";
 import QueuedSong from "./QueuedSong";
 
 const styles = {
@@ -10,14 +10,14 @@ const styles = {
 };
 
 const QueuedSongList = () => {
-  const { songState } = useContext(SongContext);
-
+  const { data } = useQuery(GET_QUEUED_SONGS);
+  
   return (
     <div style={styles.container}>
       <Typography variant="button" color="text.secondary">
-        queue ({songState.queue.length})
+        queue ({data.queue.length})
       </Typography>
-      {songState.queue.map((song) => (
+      {data.queue.map((song) => (
         <QueuedSong key={song.id} song={song} />
       ))}
     </div>

@@ -1,7 +1,9 @@
+import { useMutation } from "@apollo/client";
+
 import { Delete } from "@mui/icons-material";
 import { Avatar, IconButton, Typography } from "@mui/material";
-import { useContext } from "react";
-import { SongContext } from "../../context/SongsProvider";
+
+import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
 
 const styles = {
   container: {
@@ -25,10 +27,16 @@ const styles = {
 
 export default function QueuedSong({ song }) {
   const { title, artist, thumbnail } = song;
-  const { songDispatch } = useContext(SongContext);
+  const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
+    onCompleted: (data) => {
+      localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
+    },
+  });
 
   const removeFromQueue = () => {
-    songDispatch({ type: "REMOVE_FROM_QUEUE", id:song.id });
+    addOrRemoveFromQueue({
+      variables: { input: { ...song, __typename: "Song" } },
+    });
   };
 
   return (
