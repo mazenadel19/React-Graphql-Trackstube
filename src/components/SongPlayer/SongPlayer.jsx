@@ -56,19 +56,18 @@ export default function SongPlayer() {
   const [seeking, setSeeking] = useState(false);
   const YtPlayerRef = useRef(null);
 
-
   useEffect(() => {
     const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
     const nextSong = data.queue[currentSongIdx + 1];
 
-    if (nextSong && played === 1) {
+    if (nextSong && played >= 0.99) {
       songDispatch({ type: "PLAY_SONG", song: nextSong });
-    } else if (data.queue.length && played === 1) {
+    } else if (data.queue.length && played >= 0.99) {
       songDispatch({ type: "PLAY_SONG", song: data.queue[0] });
-    } else if (!nextSong && played === 1) {
+    } else if (!nextSong && played >= 0.99) {
       songDispatch({ type: "TOGGLE_SONG" });
-    } 
-    if (played === 1) {
+    }
+    if (played >= 0.99) {
       setPlayed(0);
       setPlayedSeconds(0);
       const queryResult = client.readQuery({ query: GET_QUEUED_SONGS });
@@ -114,6 +113,23 @@ export default function SongPlayer() {
 
   const formatDuration = (seconds) => {
     return new Date(seconds * 1000).toISOString().substring(11, 19);
+  };
+
+  const handlePlayPrevious = () => {
+    const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
+    const previousSong = data.queue[currentSongIdx - 1];
+    const LastSong = data.queue[data.queue.length - 1];
+    songDispatch({
+      type: "PLAY_SONG",
+      song: previousSong ? previousSong : LastSong,
+    });
+  };
+
+  const handlePlayNext = () => {
+    const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
+    const nextSong = data.queue[currentSongIdx + 1];
+    const FirstSong = data.queue[0];
+    songDispatch({ type: "PLAY_SONG", song: nextSong ? nextSong : FirstSong });
   };
 
   return (
@@ -162,7 +178,11 @@ export default function SongPlayer() {
           </CardContent>
 
           <Box sx={styles.btnWrapper}>
-            <IconButton aria-label="previous" sx={styles.btnHover}>
+            <IconButton
+              aria-label="previous"
+              sx={styles.btnHover}
+              onClick={handlePlayPrevious}
+            >
               <SkipPrevious />
             </IconButton>
             <IconButton
@@ -176,7 +196,11 @@ export default function SongPlayer() {
                 <PlayArrow sx={styles.playBtn} />
               )}
             </IconButton>
-            <IconButton aria-label="next" sx={styles.btnHover}>
+            <IconButton
+              aria-label="next"
+              sx={styles.btnHover}
+              onClick={handlePlayNext}
+            >
               <SkipNext />
             </IconButton>
             <Typography
