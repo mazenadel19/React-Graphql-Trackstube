@@ -1,4 +1,4 @@
-# React Graphql Myspace
+# React Graphql Trackstube
 
 A music sharing website
 
@@ -18,3 +18,10 @@ Share your favorite youtube tracks with the world
 - graphql
 - MUI Core (UI Library)
 - MUI Icons (UI Library)
+
+## 🤔 Features
+
+- Play/Pause Songs
+- Add/Remove Song To/From Queue
+- Saving Queue Between Sessions
+- Skip To Next/Previous Song

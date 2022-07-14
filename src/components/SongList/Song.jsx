@@ -10,12 +10,12 @@ import {
   CardMedia,
   IconButton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 
 import { SongContext } from "../../context/SongsProvider";
 
 import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
-
 
 export const btnHover = [
   (theme) => ({
@@ -35,16 +35,22 @@ const styles = {
 export default function Song({ song }) {
   const { songState, songDispatch } = useContext(SongContext);
   const { title, artist, thumbnail, id } = song;
+
+  const greaterThanMedium = useMediaQuery((theme) =>
+    theme.breakpoints.up("md")
+  );
   const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
     onCompleted: (data) => {
       localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
     },
   });
 
-
   const playPauseSong = () => {
     songDispatch({
-      type: songState.isPlaying ? "PAUSE_SONG" : "PLAY_SONG",
+      type:
+        songState?.song?.id === id && songState.isPlaying
+          ? "PAUSE_SONG"
+          : "PLAY_SONG",
       song,
     });
   };
@@ -84,14 +90,16 @@ export default function Song({ song }) {
               )}
             </IconButton>
 
-            <IconButton
-              size="small"
-              color="primary"
-              sx={styles.btnHover}
-              onClick={saveOrRemoveFromQueue}
-            >
-              <Save />
-            </IconButton>
+            {greaterThanMedium && (
+              <IconButton
+                size="small"
+                color="primary"
+                sx={styles.btnHover}
+                onClick={saveOrRemoveFromQueue}
+              >
+                <Save />
+              </IconButton>
+            )}
           </CardActions>
         </div>
       </div>

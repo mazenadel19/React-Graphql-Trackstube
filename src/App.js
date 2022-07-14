@@ -22,7 +22,7 @@ const styles = {
     mobile: {
       left: 0,
       transition: "bottom 5s ease",
-      paddingLeft: '0 !important',
+      paddingLeft: "0 !important",
     },
     desktop: {
       right: 0,
@@ -59,7 +59,7 @@ function App() {
 
   return (
     <div>
-      <div id="iframe-root"></div>
+      <div id="ytPlayer-root"></div>
       <Hidden only="xs">
         <Header />
       </Hidden>

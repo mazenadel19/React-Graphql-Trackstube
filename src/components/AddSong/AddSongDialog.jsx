@@ -49,8 +49,8 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
       setUrl("");
       handleCloseDialog();
     } catch (err) {
-      console.log("Couldn't Add Your Stupid Song", song);
-      console.warn(err);
+      console.warn("Couldn't Add Your Stupid Song", song);
+      console.error(err);
     }
   };
 

@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import SongsProvider from "./context/SongsProvider";
 
@@ -14,14 +13,12 @@ import "./index.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <StrictMode>
-    <SongsProvider>
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={Theme}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
-      </ApolloProvider>
-    </SongsProvider>
-  </StrictMode>
+  <SongsProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={Theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </ApolloProvider>
+  </SongsProvider>
 );

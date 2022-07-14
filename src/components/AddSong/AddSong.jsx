@@ -7,7 +7,7 @@ import { Button, InputAdornment, TextField } from "@mui/material";
 import AddSongDialog from "./AddSongDialog";
 
 import YouTubePlayer from "react-player/youtube";
-import Iframe from "./Iframe";
+import YtPlayer from "./YtPlayer";
 
 const styles = {
   container: {
@@ -92,12 +92,8 @@ const AddSong = () => {
 
       {playable &&
         ReactDOM.createPortal(
-          <Iframe
-            playable={playable}
-            url={url}
-            handleEditSong={handleFetchSongData}
-          />,
-          document.getElementById("iframe-root")
+          <YtPlayer url={url} handleEditSong={handleFetchSongData} />,
+          document.getElementById("ytPlayer-root")
         )}
     </div>
   );
