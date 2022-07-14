@@ -23,5 +23,5 @@ Share your favorite youtube tracks with the world
 
 - Play/Pause Songs
 - Add/Remove Song To/From Queue
-- Saving Queue Between Sessions
+- Saving Queue Between Sessions (on tablets and up)
 - Skip To Next/Previous Song
