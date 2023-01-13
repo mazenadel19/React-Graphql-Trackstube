@@ -1,19 +1,16 @@
-import ReactDOM from "react-dom";
 import { useState } from "react";
-
-import { AddBoxOutlined, Link } from "@mui/icons-material";
-import { Button, InputAdornment, TextField } from "@mui/material";
-
+// Components
 import AddSongDialog from "./AddSongDialog";
-
+import YtPlayer from "../YouTube/YtPlayer";
+// Hook
+import useFetchSongInfo from "../../hooks/useFetchSongInfo";
+// MUI
+import { AddBoxOutlined, Link } from "@mui/icons-material";
+import { Button, InputAdornment, TextField, Box, Stack } from "@mui/material";
+// lib
 import YouTubePlayer from "react-player/youtube";
-import YtPlayer from "./YtPlayer";
 
 const styles = {
-  container: {
-    display: "flex",
-    alignItems: "center",
-  },
   addBtn: [
     { m: 1 },
     (theme) => ({
@@ -24,35 +21,22 @@ const styles = {
   ],
 };
 
-export const initialSongState = {
-  thumbnail: "",
-  duration: 0,
-  title: "",
-  artist: "",
-  url: "",
-};
 
 const AddSong = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [url, setUrl] = useState("");
   const [playable, setPlayable] = useState(false);
-  const [song, setSong] = useState(initialSongState);
+  const { song, setSong, handleFetchSongData } = useFetchSongInfo(url)
+
   const HandleAddInput = (e) => {
     setUrl(e.target.value);
     const IsPlayable = YouTubePlayer.canPlay(e.target.value);
     setPlayable(IsPlayable);
   };
 
-  const handleFetchSongData = ({ player }) => {
-    const nestedPlayer = player.player.player;
-    const { video_id, title, author } = nestedPlayer.getVideoData();
-    const duration = nestedPlayer.getDuration();
-    const thumbnail = `https://img.youtube.com/vi/${video_id}/0.jpg`;
-    setSong({ thumbnail, duration, title, artist: author, url });
-  };
 
   return (
-    <div style={styles.container}>
+    <Stack display={"flex"} alignItems="center" flexDirection={"row"}>
       <AddSongDialog
         song={song}
         setSong={setSong}
@@ -90,12 +74,10 @@ const AddSong = () => {
         Add
       </Button>
 
-      {playable &&
-        ReactDOM.createPortal(
-          <YtPlayer url={url} handleEditSong={handleFetchSongData} />,
-          document.getElementById("ytPlayer-root")
-        )}
-    </div>
+      <Box display={"none"}>
+        <YtPlayer url={url} handleEditSong={handleFetchSongData} />
+      </Box>
+    </Stack>
   );
 };
 

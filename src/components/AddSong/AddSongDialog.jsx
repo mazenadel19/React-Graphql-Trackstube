@@ -3,19 +3,12 @@ import { useMutation } from "@apollo/client";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 // Components
 import { ADD_SONG } from "../../graphql/mutations";
-// Context
-import { initialSongState } from "./AddSong";
+// hook
+import useHelper from "../../hooks/useHelper";
 
-const sty = {
-  dialog: {
-    textAlign: "center",
-  },
-  thumbnail: {
-    width: "90%",
-  },
-};
 
 function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
+  const { initialSongState } = useHelper()
   const { thumbnail, title, artist } = song;
   const [addSong] = useMutation(ADD_SONG);
 
@@ -49,11 +42,11 @@ function AddSongDialog({ song, setSong, showDialog, setShowDialog, setUrl }) {
   };
 
   return (
-    <Dialog open={showDialog} onClose={handleCloseDialog} style={sty.dialog}>
+    <Dialog open={showDialog} onClose={handleCloseDialog} sx={{ textAlign: "center" }}>
       <DialogTitle>Edit Song</DialogTitle>
 
       <DialogContent>
-        <img src={thumbnail} alt="song thumbnail" style={sty.thumbnail} />
+        <img src={thumbnail} alt="song thumbnail" width={"80%"} />
         <TextField
           onChange={handleEditSong}
           variant="standard"

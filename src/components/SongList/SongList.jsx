@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 // MUI
 import { Typography } from "@mui/material";
 // Hook
-import useSongList from "../hooks/useSongList";
+import useSongList from "../../hooks/useSongList";
 
 const SongList = () => {
   const { loading, error, data } = useSubscription(GET_SONGS_SUBSCRIPTION);

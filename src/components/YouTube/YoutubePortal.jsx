@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
 import ReactDOM from "react-dom";
-import YtPlayer from "../AddSong/YtPlayer";
+import YtPlayer from "./YtPlayer";
 
-const MediaPlayerPortal = forwardRef((props, ref) => {
+const YoutubePortal = forwardRef((props, ref) => {
   const { url, isPlaying, setPlayed, setPlayedSeconds, seeking } = props;
   return ReactDOM.createPortal(
     <YtPlayer
@@ -20,4 +20,4 @@ const MediaPlayerPortal = forwardRef((props, ref) => {
   );
 })
 
-export default MediaPlayerPortal;
+export default YoutubePortal;

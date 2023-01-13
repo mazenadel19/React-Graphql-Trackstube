@@ -1,8 +1,8 @@
 import  { useContext, useEffect, useRef } from 'react'
-import { SongContext } from '../../context/SongsProvider';
+import { SongContext } from '../context/SongsProvider';
 // Apollo
-import client from '../../graphql/client';
-import { GET_QUEUED_SONGS } from '../../graphql/queries';
+import client from '../graphql/client';
+import { GET_QUEUED_SONGS } from '../graphql/queries';
 
 const useSongList = ({ error, loading, data }) => {
     const { songDispatch } = useContext(SongContext);

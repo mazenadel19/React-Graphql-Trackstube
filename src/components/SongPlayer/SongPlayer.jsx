@@ -4,9 +4,10 @@ import { useQuery } from "@apollo/client";
 import { GET_QUEUED_SONGS } from "../../graphql/queries";
 // Components
 import { SongContext } from "../../context/SongsProvider";
-import MediaPlayerPortal from "./MediaPlayerPortal"
+import YoutubePortal from "../YouTube/YoutubePortal"
 // hooks
 import useHelper from "../../hooks/useHelper";
+import useSongPlayer from "../../hooks/useSongPlayer";
 // MUI
 import { Box, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
 import { Pause, PlayArrow, SkipPrevious, SkipNext } from "@mui/icons-material";
@@ -15,7 +16,6 @@ import { Slider } from "@mui/material";
 // styles
 import classes from "./SongPlayer.module.css";
 import { btnHover } from "../SongList/Song";
-import useSongPlayer from "../hooks/useSongPlayer";
 
 
 export default function SongPlayer() {
@@ -109,7 +109,7 @@ export default function SongPlayer() {
 
         {greaterThan420PX && <CardMedia component='img' sx={{ width: 151 }} image={thumbnail} alt={`${title} song thumbnail`} />}
       </Card>
-      <MediaPlayerPortal url={url} isPlaying={isPlaying} setPlayed={setPlayed} setPlayedSeconds={setPlayedSeconds} seeking={seeking} ref={YtPlayerRef} />
+      <YoutubePortal url={url} isPlaying={isPlaying} setPlayed={setPlayed} setPlayedSeconds={setPlayedSeconds} seeking={seeking} ref={YtPlayerRef} />
     </>
   );
 }

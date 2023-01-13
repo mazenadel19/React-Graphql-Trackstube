@@ -1,11 +1,11 @@
 import { useEffect, useContext, useState } from 'react';
 
 // Apollo
-import client from '../../graphql/client';
-import { GET_QUEUED_SONGS } from '../../graphql/queries';
+import client from '../graphql/client';
+import { GET_QUEUED_SONGS } from '../graphql/queries';
 
 // Context
-import { SongContext } from '../../context/SongsProvider';
+import { SongContext } from '../context/SongsProvider';
 
 const useSongPlayer = (data) => {
     const [played, setPlayed] = useState(0);
