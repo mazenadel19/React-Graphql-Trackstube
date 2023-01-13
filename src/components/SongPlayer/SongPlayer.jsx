@@ -6,7 +6,7 @@ import { GET_QUEUED_SONGS } from "../../graphql/queries";
 import { SongContext } from "../../context/SongsProvider";
 import MediaPlayerPortal from "./MediaPlayerPortal"
 // hooks
-import useHelper from "../hooks/useHelper";
+import useHelper from "../../hooks/useHelper";
 // MUI
 import { Box, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
 import { Pause, PlayArrow, SkipPrevious, SkipNext } from "@mui/icons-material";

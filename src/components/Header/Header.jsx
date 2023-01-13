@@ -1,24 +1,16 @@
+// MUI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import HeadsetIcon from "@mui/icons-material/Headset";
+import { Stack } from "@mui/material";
 
-const styles = {
-  logoWrapper: {
-    display: "flex",
-    gap: "5px",
-    alignItems: "center",
-  },
-  tube: {
-    background: "red",
-    padding: "1px",
-    borderRadius: "5px",
-  },
-};
+// styles
+import styles from "./Header.module.css"
 
-export default function ButtonAppBar() {
+export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" color="primary" enableColorOnDark>
@@ -37,9 +29,10 @@ export default function ButtonAppBar() {
             component="h1"
             sx={{ flexGrow: 1, fontWeight: "bold" }}
           >
-            <div style={styles.logoWrapper}>
-              Tracks<span style={styles.tube}>Tube</span>
-            </div>
+            <Stack display={"flex"} flexDirection="row" alignItems={"center"} gap={"5px"}> 
+              Tracks 
+              <Typography component="span" variant="h6" className={styles.tube}>Tube</Typography>
+            </Stack>
           </Typography>
         </Toolbar>
       </AppBar>

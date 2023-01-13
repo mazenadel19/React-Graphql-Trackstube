@@ -6,7 +6,7 @@ import QueuedSongList from "./components/QueuedSongList/QueuedSongList";
 import SongList from "./components/SongList/SongList";
 import SongPlayer from "./components/SongPlayer/SongPlayer";
 // Helper
-import useHelper from "./components/hooks/useHelper";
+import useHelper from "./hooks/useHelper";
 // MUI
 import { Grid, Hidden } from "@mui/material";
 // Styles

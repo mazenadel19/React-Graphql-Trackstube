@@ -24,7 +24,7 @@ export default function QueuedSong({ song }) {
 
   return (
     <Box className={classes.container}>
-      <Avatar src={thumbnail} sx={classes.thumbnail} />
+      <Avatar src={thumbnail} className={classes.thumbnail} />
       <Box className={classes.songInfoContainer}>
         <Typography variant="subtitle2" className={classes.text}>
           {title}
