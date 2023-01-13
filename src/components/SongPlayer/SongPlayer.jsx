@@ -1,8 +1,7 @@
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState } from "react";
 // Apollo
 import { useQuery } from "@apollo/client";
 import { GET_QUEUED_SONGS } from "../../graphql/queries";
-import client from "../../graphql/client";
 // Components
 import { SongContext } from "../../context/SongsProvider";
 import MediaPlayerPortal from "./MediaPlayerPortal"
@@ -16,56 +15,18 @@ import { Slider } from "@mui/material";
 // styles
 import classes from "./SongPlayer.module.css";
 import { btnHover } from "../SongList/Song";
+import useSongPlayer from "../hooks/useSongPlayer";
 
 
 export default function SongPlayer() {
   const { greaterThan420PX, greaterThanMedium, formatDuration } = useHelper();
-
+  const { songState: { song, isPlaying }, songDispatch } = useContext(SongContext);
+  
   const { data } = useQuery(GET_QUEUED_SONGS);
+  const { played, setPlayed, playedSeconds, setPlayedSeconds } = useSongPlayer(data)
 
-  const { songState, songDispatch } = useContext(SongContext);
-  const { song, isPlaying } = songState;
-
-  const [played, setPlayed] = useState(0);
-  const [playedSeconds, setPlayedSeconds] = useState(0);
   const [seeking, setSeeking] = useState(false);
   const YtPlayerRef = useRef(null);
-
-  useEffect(() => {
-    const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
-    const nextSong = data.queue[currentSongIdx + 1];
-
-    if (nextSong && played >= 0.99) {
-      songDispatch({ type: "PLAY_SONG", song: nextSong });
-    } else if (data.queue.length && played >= 0.99) {
-      songDispatch({ type: "PLAY_SONG", song: data.queue[0] });
-    } else if (!nextSong && played >= 0.99) {
-      songDispatch({ type: "TOGGLE_SONG" });
-    }
-    if (played >= 0.99) {
-      setPlayed(0);
-      setPlayedSeconds(0);
-
-      const queryResult = client.readQuery({ query: GET_QUEUED_SONGS });
-      if (queryResult) {
-        const { queue } = queryResult;
-        if (queue.length) {
-          const nextSongIdx = currentSongIdx + 1;
-          const queueCopy = [...queue]; // queue is immutable
-          // removes playing song if it's already in the queue
-          if (currentSongIdx >= 0) {
-            queueCopy.splice(currentSongIdx, 1);
-          }
-          queueCopy.splice(nextSongIdx, 1);
-          client.writeQuery({
-            query: GET_QUEUED_SONGS,
-            data: { queue: queueCopy },
-          });
-          localStorage.setItem("queue", JSON.stringify(queueCopy));
-        }
-      }
-    }
-  }, [data.queue, played, song.id, songDispatch]);
 
   if (!song) return null;
 
