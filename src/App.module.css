@@ -1,0 +1,31 @@
+.containerDesktop {
+  padding-inline: 16px;
+  padding-top: 88px;
+}
+
+.containerMobile {
+  padding-top: 16px;
+}
+
+.rightSectionCommon {
+  position: fixed;
+  width: 100%;
+}
+
+.rightSectionMobile {
+  left: 0;
+  transition: bottom 5s ease;
+  padding-left: 0 !important;
+}
+
+.rightSectionDesktop {
+  right: 0;
+  top: 60;
+}
+
+.bottomZero{
+    bottom: 0;
+}
+.bottomMinus50{
+    bottom: -50%;
+}
