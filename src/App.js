@@ -40,34 +40,14 @@ function App() {
       <Hidden only='xs'>
         <Header />
       </Hidden>
-      <Grid
-        container
-        spacing={3}
-        className={`${
-          greaterThanSmall ? classes.containerDesktop : classes.containerMobile
-        }`}
-      >
+      <Grid container spacing={3} className={`${greaterThanSmall ? classes.containerDesktop : classes.containerMobile}`}>
         <Grid item xs={12} md={7}>
           <AddSong />
           <SongList />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          md={5}
+        <Grid item xs={12} md={5}
           className={`${classes.rightSectionCommon}
-          ${
-            greaterThanMedium
-              ? classes.rightSectionDesktop
-              : classes.rightSectionMobile
-          }
-          ${
-            greaterThanMedium
-              ? ""
-              : scrolling
-              ? classes.bottomMinus50
-              : classes.bottomZero
-          }
+          ${greaterThanMedium ? classes.rightSectionDesktop : `${classes.rightSectionMobile} ${scrolling ? classes.bottomMinus50 : classes.bottomZero}`}
           `}
         >
           <SongPlayer />

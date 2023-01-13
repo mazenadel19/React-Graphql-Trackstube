@@ -1,26 +1,23 @@
+// Apollo
 import { useQuery } from "@apollo/client";
-import { Typography } from "@mui/material";
 import { GET_QUEUED_SONGS } from "../../graphql/queries";
+// Component
 import QueuedSong from "./QueuedSong";
-
-const styles = {
-  container: {
-    margin: "10px 0",
-  },
-};
+// MUI
+import { Box, Typography } from "@mui/material";
 
 const QueuedSongList = () => {
   const { data } = useQuery(GET_QUEUED_SONGS);
-  
+
   return (
-    <div style={styles.container}>
+    <Box marginY={"10px"}>
       <Typography variant="button" color="text.secondary">
         queue ({data.queue.length})
       </Typography>
       {data.queue.map((song) => (
         <QueuedSong key={song.id} song={song} />
       ))}
-    </div>
+    </Box>
   );
 };
 

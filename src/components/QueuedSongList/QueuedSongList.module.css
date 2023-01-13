@@ -1,0 +1,26 @@
+.container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 50px auto 50px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    background-color: #1e1e1e;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.songInfoContainer {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.thumbnail {
+    width: 44px;
+    height: 44px
+}
+
+.text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

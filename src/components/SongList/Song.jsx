@@ -59,22 +59,11 @@ export default function Song({ song }) {
           </CardContent>
 
           <CardActions>
-            <IconButton
-              onClick={playPauseSong}
-              size="small"
-              color="primary"
-              sx={btnHover}
-            >
+            <IconButton onClick={playPauseSong} size="small" color="primary" sx={btnHover} >
               {songState?.song?.id === id && songState.isPlaying ? (<Pause />) : ( <PlayArrow />)}
             </IconButton>
 
-            {greaterThanMedium && (
-              <IconButton
-                size="small"
-                color="primary"
-                sx={btnHover}
-                onClick={saveOrRemoveFromQueue}
-              >
+            {greaterThanMedium && (<IconButton size="small" color="primary" sx={btnHover} onClick={saveOrRemoveFromQueue}>
                 <Save />
               </IconButton>
             )}

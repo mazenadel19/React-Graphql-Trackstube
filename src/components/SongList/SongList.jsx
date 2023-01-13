@@ -13,7 +13,7 @@ const SongList = () => {
   const { loading, error, data } = useSubscription(GET_SONGS_SUBSCRIPTION);
   useSongList({ loading, error, data })
 
-  if (!loading) {
+  if (loading) {
     return <Spinner />;
   }
 
