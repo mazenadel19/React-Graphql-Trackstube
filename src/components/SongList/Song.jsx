@@ -1,29 +1,21 @@
 import { useContext } from "react";
-
+// Apollo
 import { useMutation } from "@apollo/client";
-
-import { PlayArrow, Save, Pause } from "@mui/icons-material";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-
-import { SongContext } from "../../context/SongsProvider";
-
 import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
+// Context
+import { SongContext } from "../../context/SongsProvider";
+// MUI
+import { PlayArrow, Save, Pause } from "@mui/icons-material";
+import { Card, CardActions, CardContent, CardMedia,IconButton, Typography, } from "@mui/material";
+import useHelper from "../hooks/useHelper";
 
-export const btnHover = [
+
+export const btnHover = 
   (theme) => ({
     "&:hover": {
       color: theme.palette.secondary.main,
     },
-  }),
-];
+  });
 
 const styles = {
   songInfoContainer: { display: "flex", alignItems: "center" },
@@ -35,10 +27,9 @@ const styles = {
 export default function Song({ song }) {
   const { songState, songDispatch } = useContext(SongContext);
   const { title, artist, thumbnail, id } = song;
+  const { greaterThanMedium } = useHelper()
 
-  const greaterThanMedium = useMediaQuery((theme) =>
-    theme.breakpoints.up("md")
-  );
+
   const [addOrRemoveFromQueue] = useMutation(ADD_OR_REMOVE_FROM_QUEUE, {
     onCompleted: (data) => {
       localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
@@ -47,11 +38,8 @@ export default function Song({ song }) {
 
   const playPauseSong = () => {
     songDispatch({
-      type:
-        songState?.song?.id === id && songState.isPlaying
-          ? "PAUSE_SONG"
-          : "PLAY_SONG",
-      song,
+      type: songState?.song?.id === id && songState.isPlaying ? "PAUSE_SONG" : "PLAY_SONG",
+      song
     });
   };
 
@@ -83,11 +71,7 @@ export default function Song({ song }) {
               color="primary"
               sx={styles.btnHover}
             >
-              {songState?.song?.id === id && songState.isPlaying ? (
-                <Pause />
-              ) : (
-                <PlayArrow />
-              )}
+              {songState?.song?.id === id && songState.isPlaying ? (<Pause />) : ( <PlayArrow />)}
             </IconButton>
 
             {greaterThanMedium && (

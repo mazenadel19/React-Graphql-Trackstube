@@ -1,15 +1,9 @@
 import { useMutation } from "@apollo/client";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
-
+// MUI
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+// Components
 import { ADD_SONG } from "../../graphql/mutations";
-
+// Context
 import { initialSongState } from "./AddSong";
 
 const sty = {

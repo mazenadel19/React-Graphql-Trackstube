@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Grid, Hidden } from "@mui/material";
 // Components
 import AddSong from "./components/AddSong/AddSong";
 import Header from "./components/Header/Header";
@@ -7,7 +6,9 @@ import QueuedSongList from "./components/QueuedSongList/QueuedSongList";
 import SongList from "./components/SongList/SongList";
 import SongPlayer from "./components/SongPlayer/SongPlayer";
 // Helper
-import useHelper from "./useHelper";
+import useHelper from "./components/hooks/useHelper";
+// MUI
+import { Grid, Hidden } from "@mui/material";
 // Styles
 import classes from "./App.module.css";
 
@@ -55,8 +56,18 @@ function App() {
           xs={12}
           md={5}
           className={`${classes.rightSectionCommon}
-          ${ greaterThanMedium ? classes.rightSectionDesktop : classes.rightSectionMobile}
-          ${greaterThanMedium? "" : (scrolling ? classes.bottomMinus50 : classes.bottomZero)}
+          ${
+            greaterThanMedium
+              ? classes.rightSectionDesktop
+              : classes.rightSectionMobile
+          }
+          ${
+            greaterThanMedium
+              ? ""
+              : scrolling
+              ? classes.bottomMinus50
+              : classes.bottomZero
+          }
           `}
         >
           <SongPlayer />

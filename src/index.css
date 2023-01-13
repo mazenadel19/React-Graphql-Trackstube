@@ -3,6 +3,7 @@ body {
 }
 
 #ytPlayer-root {
+  overflow: hidden;
   position: absolute;
   z-index: -1;
 }

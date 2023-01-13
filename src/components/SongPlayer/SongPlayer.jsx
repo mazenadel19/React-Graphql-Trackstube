@@ -1,50 +1,25 @@
-import ReactDOM from "react-dom";
 import { useContext, useRef, useState, useEffect } from "react";
-
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  IconButton,
-  Typography,
-} from "@mui/material";
-
-import { Pause, PlayArrow, SkipPrevious, SkipNext } from "@mui/icons-material";
-import { Slider, useMediaQuery } from "@mui/material";
-
-import { btnHover } from "../SongList/Song";
-import { SongContext } from "../../context/SongsProvider";
-import YtPlayer from "../AddSong/YtPlayer";
+// Apollo
 import { useQuery } from "@apollo/client";
 import { GET_QUEUED_SONGS } from "../../graphql/queries";
 import client from "../../graphql/client";
+// Components
+import { SongContext } from "../../context/SongsProvider";
+import MediaPlayerPortal from "./MediaPlayerPortal"
+// hooks
+import useHelper from "../hooks/useHelper";
+// MUI
+import { Box, Card, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
+import { Pause, PlayArrow, SkipPrevious, SkipNext } from "@mui/icons-material";
+import { Slider } from "@mui/material";
 
-const styles = {
-  card: { display: "flex", justifyContent: "space-around", m: 1, boxShadow: 3 },
-  cardWrapper: { display: "flex", flexDirection: "column" },
-  cardContent: { flex: "1 0 auto" },
-  btnWrapper: { display: "flex", alignItems: "center", pl: 1, pb: 1 },
-  playBtn: { height: 38, width: 38 },
-  btnHover: btnHover[0],
-  cardContentLessThan420: {
-    display: "flex",
-    flexDirection: "row-reverse",
-    alignItems: "center",
-    gridColumnGap: "5px",
-  },
-  playerHeader: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-};
+// styles
+import classes from "./SongPlayer.module.css";
+import { btnHover } from "../SongList/Song";
+
 
 export default function SongPlayer() {
-  const greaterThanMedium = useMediaQuery((theme) =>
-    theme.breakpoints.up("md")
-  );
-  const greaterThan420PX = useMediaQuery("(min-width:420px)");
+  const { greaterThan420PX, greaterThanMedium, formatDuration } = useHelper();
 
   const { data } = useQuery(GET_QUEUED_SONGS);
 
@@ -70,6 +45,7 @@ export default function SongPlayer() {
     if (played >= 0.99) {
       setPlayed(0);
       setPlayedSeconds(0);
+
       const queryResult = client.readQuery({ query: GET_QUEUED_SONGS });
       if (queryResult) {
         const { queue } = queryResult;
@@ -91,7 +67,7 @@ export default function SongPlayer() {
     }
   }, [data.queue, played, song.id, songDispatch]);
 
-  if (!song) return;
+  if (!song) return null;
 
   const { artist, thumbnail, title, url } = song;
 
@@ -111,9 +87,6 @@ export default function SongPlayer() {
     YtPlayerRef.current.seekTo(played);
   };
 
-  const formatDuration = (seconds) => {
-    return new Date(seconds * 1000).toISOString().substring(11, 19);
-  };
 
   const handlePlayPrevious = () => {
     const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
@@ -134,119 +107,43 @@ export default function SongPlayer() {
 
   return (
     <>
-      <Card
-        sx={
-          greaterThanMedium
-            ? styles.card
-            : { ...styles.card, mx: 0, mb: "15px" }
-        }
-      >
-        <Box
-          sx={
-            greaterThan420PX
-              ? styles.cardWrapper
-              : { ...styles.cardWrapper, alignItems: "center" }
-          }
-        >
-          <CardContent
-            sx={
-              greaterThan420PX
-                ? styles.cardContent
-                : styles.cardContentLessThan420
-            }
-          >
-            <div style={greaterThan420PX ? {} : styles.playerHeader}>
-              <Typography component="div" variant="h5">
-                {title}
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                {artist}
-              </Typography>
-            </div>
-            {!greaterThan420PX && (
-              <CardMedia
-                component="img"
-                sx={{ width: 151 }}
-                image={thumbnail}
-                alt={`${title} song thumbnail`}
-              />
-            )}
+      <Card className={greaterThanMedium ? classes.card : `${classes.card} ${classes.cardBiggerThanMd}`}>
+        <Box className={greaterThan420PX ? classes.cardWrapper : `${classes.cardWrapper} ${classes.cardWrapperAlignCenter}`}>
+
+          <CardContent className={greaterThan420PX ? classes.cardContent : classes.cardContentLessThan420}>
+            <Box className={greaterThan420PX ? "" : classes.playerHeader}>
+              <Typography component='div' variant='h5'>{title}</Typography>
+              <Typography variant='subtitle1' color='text.secondary' component='div'>{artist}</Typography>
+            </Box>
+            {!greaterThan420PX && <CardMedia component='img' sx={{ width: 151 }} image={thumbnail} alt={`${title} song thumbnail`} />}
           </CardContent>
 
-          <Box sx={styles.btnWrapper}>
-            <IconButton
-              aria-label="previous"
-              sx={styles.btnHover}
-              onClick={handlePlayPrevious}
-            >
+          <Box className={classes.btnWrapper}>
+            <IconButton aria-label='previous' sx={btnHover} onClick={handlePlayPrevious}>
               <SkipPrevious />
             </IconButton>
-            <IconButton
-              aria-label="play/pause"
-              sx={styles.btnHover}
-              onClick={hanndleTogglePlay}
-            >
-              {isPlaying ? (
-                <Pause sx={styles.playBtn} />
-              ) : (
-                <PlayArrow sx={styles.playBtn} />
-              )}
+            <IconButton aria-label='play/pause' sx={btnHover} onClick={hanndleTogglePlay}>
+              {isPlaying ? (<Pause className={classes.playBtn} />) : (<PlayArrow className={classes.playBtn} />)}
             </IconButton>
-            <IconButton
-              aria-label="next"
-              sx={styles.btnHover}
-              onClick={handlePlayNext}
-            >
+            <IconButton aria-label='next' sx={btnHover} onClick={handlePlayNext}>
               <SkipNext />
             </IconButton>
-            <Typography
-              variant="subtitle1"
-              color="text.secondary"
-              component="p"
-            >
+            <Typography variant='subtitle1' color='text.secondary' component='p'>
               {formatDuration(playedSeconds)}
             </Typography>
           </Box>
+
           <Slider
-            onMouseDown={handleSeekingMouseDown}
-            onMouseUp={handleSeekingMouseUp}
-            onChange={handleProgressChange}
-            value={played}
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            size="small"
+            onChange={handleProgressChange} value={played}
+            onMouseDown={handleSeekingMouseDown} onMouseUp={handleSeekingMouseUp}
+            type='range' min={0} max={1} step={0.01} size='small'
           />
+
         </Box>
 
-        {greaterThan420PX && (
-          <CardMedia
-            component="img"
-            sx={{ width: 151 }}
-            image={thumbnail}
-            alt={`${title} song thumbnail`}
-          />
-        )}
+        {greaterThan420PX && <CardMedia component='img' sx={{ width: 151 }} image={thumbnail} alt={`${title} song thumbnail`} />}
       </Card>
-      {ReactDOM.createPortal(
-        <YtPlayer
-          ref={YtPlayerRef}
-          onProgress={({ played, playedSeconds }) => {
-            if (!seeking) {
-              setPlayed(played);
-              setPlayedSeconds(playedSeconds);
-            }
-          }}
-          playing={isPlaying}
-          url={url}
-        />,
-        document.getElementById("ytPlayer-root")
-      )}
+      <MediaPlayerPortal url={url} isPlaying={isPlaying} setPlayed={setPlayed} setPlayedSeconds={setPlayedSeconds} seeking={seeking} ref={YtPlayerRef} />
     </>
   );
 }
