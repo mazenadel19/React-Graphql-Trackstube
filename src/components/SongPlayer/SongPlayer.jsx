@@ -21,7 +21,7 @@ import useSongPlayer from "../hooks/useSongPlayer";
 export default function SongPlayer() {
   const { greaterThan420PX, greaterThanMedium, formatDuration } = useHelper();
   const { songState: { song, isPlaying }, songDispatch } = useContext(SongContext);
-  
+
   const { data } = useQuery(GET_QUEUED_SONGS);
   const { played, setPlayed, playedSeconds, setPlayedSeconds } = useSongPlayer(data)
 
@@ -49,22 +49,25 @@ export default function SongPlayer() {
   };
 
 
+  const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
+  const previousSong = data.queue[currentSongIdx - 1];
+  const LastSong = data.queue[data.queue.length - 1];
+
   const handlePlayPrevious = () => {
-    const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
-    const previousSong = data.queue[currentSongIdx - 1];
-    const LastSong = data.queue[data.queue.length - 1];
-    songDispatch({
-      type: "PLAY_SONG",
-      song: previousSong ? previousSong : LastSong,
-    });
+    if (previousSong || LastSong)
+      songDispatch({
+        type: "PLAY_SONG",
+        song: previousSong ? previousSong : LastSong,
+      });
   };
 
+  const nextSong = data.queue[currentSongIdx + 1];
+  const FirstSong = data.queue[0];
   const handlePlayNext = () => {
-    const currentSongIdx = data.queue.findIndex((s) => s.id === song.id);
-    const nextSong = data.queue[currentSongIdx + 1];
-    const FirstSong = data.queue[0];
-    songDispatch({ type: "PLAY_SONG", song: nextSong ? nextSong : FirstSong });
+    if (nextSong || FirstSong)
+      songDispatch({ type: "PLAY_SONG", song: nextSong ? nextSong : FirstSong });
   };
+
 
   return (
     <>
@@ -72,33 +75,35 @@ export default function SongPlayer() {
         <Box className={greaterThan420PX ? classes.cardWrapper : `${classes.cardWrapper} ${classes.cardWrapperAlignCenter}`}>
 
           <CardContent className={greaterThan420PX ? classes.cardContent : classes.cardContentLessThan420}>
-            <Box className={greaterThan420PX ? "" : classes.playerHeader}>
-              <Typography component='div' variant='h5'>{title}</Typography>
-              <Typography variant='subtitle1' color='text.secondary' component='div'>{artist}</Typography>
+            <Box className={greaterThan420PX ? "" : classes.cardContentHeaderLessThan420}>
+              <Box className={greaterThan420PX ? "" : classes.playerTitle}>
+                <Typography component='div' variant='h5' >{title}</Typography>
+                <Typography variant='subtitle1' color='text.secondary' component='div'>{artist}</Typography>
+              </Box>
+              {!greaterThan420PX && <CardMedia component='img' sx={{ width: 151 }} image={thumbnail} alt={`${title} song thumbnail`} />}
             </Box>
-            {!greaterThan420PX && <CardMedia component='img' sx={{ width: 151 }} image={thumbnail} alt={`${title} song thumbnail`} />}
+
+            <Box className={classes.btnWrapper}>
+              <IconButton aria-label='previous' sx={btnHover} onClick={handlePlayPrevious} disabled={!previousSong && !LastSong}>
+                <SkipPrevious />
+              </IconButton>
+              <IconButton aria-label='play/pause' sx={btnHover} onClick={hanndleTogglePlay}>
+                {isPlaying ? (<Pause className={classes.playBtn} />) : (<PlayArrow className={classes.playBtn} />)}
+              </IconButton>
+              <IconButton aria-label='next' sx={btnHover} onClick={handlePlayNext} disabled={!FirstSong && !nextSong}>
+                <SkipNext />
+              </IconButton>
+              <Typography variant='subtitle1' color='text.secondary' component='p'>
+                {formatDuration(playedSeconds)}
+              </Typography>
+            </Box>
+
+            <Slider
+              onChange={handleProgressChange} value={played}
+              onMouseDown={handleSeekingMouseDown} onMouseUp={handleSeekingMouseUp}
+              type='range' min={0} max={1} step={0.01} size='small'
+            />
           </CardContent>
-
-          <Box className={classes.btnWrapper}>
-            <IconButton aria-label='previous' sx={btnHover} onClick={handlePlayPrevious}>
-              <SkipPrevious />
-            </IconButton>
-            <IconButton aria-label='play/pause' sx={btnHover} onClick={hanndleTogglePlay}>
-              {isPlaying ? (<Pause className={classes.playBtn} />) : (<PlayArrow className={classes.playBtn} />)}
-            </IconButton>
-            <IconButton aria-label='next' sx={btnHover} onClick={handlePlayNext}>
-              <SkipNext />
-            </IconButton>
-            <Typography variant='subtitle1' color='text.secondary' component='p'>
-              {formatDuration(playedSeconds)}
-            </Typography>
-          </Box>
-
-          <Slider
-            onChange={handleProgressChange} value={played}
-            onMouseDown={handleSeekingMouseDown} onMouseUp={handleSeekingMouseUp}
-            type='range' min={0} max={1} step={0.01} size='small'
-          />
 
         </Box>
 

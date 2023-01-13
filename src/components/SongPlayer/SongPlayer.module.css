@@ -2,12 +2,12 @@
   display: flex;
   justify-content: space-around;
   box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
-    0 1px 8px 0 rgba(0, 0, 0, 0.12);
-    margin: 8px;
+    0 1px 8px 0 rgba(0, 0, 0, 0.12) !important;
+  margin: 8px;
 }
 
-.cardBiggerThanMd{
-  margin-inline:  0;
+.cardBiggerThanMd {
+  margin-inline: 0;
   margin-bottom: 15px;
 }
 
@@ -16,12 +16,19 @@
   flex-direction: column;
 }
 
-.cardWrapperAlignCenter{
+.cardWrapperAlignCenter {
   align-items: center;
 }
 
 .cardContent {
   flex: 1 0 auto;
+}
+
+.cardContentLessThan420 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  column-gap: 5px;
 }
 
 .playBtn {
@@ -31,20 +38,19 @@
 
 .btnWrapper {
   display: flex;
-   align-items: center;
-   padding-inline-start: 8px;
-   padding-block-end: 8px
+  align-items: center;
+  padding-inline-start: 8px;
+  padding-block-end: 8px
 }
 
-
-.cardContentLessThan420 {
+.cardContentHeaderLessThan420 {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  column-gap: 5px;
+  column-gap: 1em;
 }
 
-.playerHeader {
+.playerTitle {
   display: flex;
   flex-direction: column;
   align-items: center;
