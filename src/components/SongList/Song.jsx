@@ -6,9 +6,9 @@ import { ADD_OR_REMOVE_FROM_QUEUE } from "../../graphql/mutations";
 import { SongContext } from "../../context/SongsProvider";
 // MUI
 import { PlayArrow, Save, Pause } from "@mui/icons-material";
-import { Card, CardActions, CardContent, CardMedia,IconButton, Typography, } from "@mui/material";
+import { Card, CardActions, CardContent, CardMedia,Grid,IconButton, Stack, Typography, } from "@mui/material";
+// Helper
 import useHelper from "../hooks/useHelper";
-
 
 export const btnHover = 
   (theme) => ({
@@ -17,12 +17,6 @@ export const btnHover =
     },
   });
 
-const styles = {
-  songInfoContainer: { display: "flex", alignItems: "center" },
-  songInfo: { display: "flex", justifyContent: "space-between", width: "100%" },
-  thumbnail: { objectFit: "cover", width: 140, height: 140 },
-  btnHover,
-};
 
 export default function Song({ song }) {
   const { songState, songDispatch } = useContext(SongContext);
@@ -51,10 +45,10 @@ export default function Song({ song }) {
 
   return (
     <Card sx={{ m: 3 }}>
-      <div style={styles.songInfoContainer}>
-        <CardMedia image={thumbnail} sx={styles.thumbnail} />
+      <Stack display="flex" flexDirection={"row"} alignItems={"center"}>
+        <CardMedia image={thumbnail} sx={{ objectFit: "cover", width: 140, height: 140 }}/>
 
-        <div style={styles.songInfo}>
+        <Grid container justifyContent={"space-between"}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {title}
@@ -69,7 +63,7 @@ export default function Song({ song }) {
               onClick={playPauseSong}
               size="small"
               color="primary"
-              sx={styles.btnHover}
+              sx={btnHover}
             >
               {songState?.song?.id === id && songState.isPlaying ? (<Pause />) : ( <PlayArrow />)}
             </IconButton>
@@ -78,15 +72,15 @@ export default function Song({ song }) {
               <IconButton
                 size="small"
                 color="primary"
-                sx={styles.btnHover}
+                sx={btnHover}
                 onClick={saveOrRemoveFromQueue}
               >
                 <Save />
               </IconButton>
             )}
           </CardActions>
-        </div>
-      </div>
+        </Grid>
+      </Stack>
     </Card>
   );
 }

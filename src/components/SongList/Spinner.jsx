@@ -1,16 +1,10 @@
-import { CircularProgress } from "@mui/material";
-
-const spinnerContainer = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  marginTop: 50,
-};
+import { CircularProgress, Stack } from "@mui/material";
 
 export default function Spinner() {
   return (
-    <div style={spinnerContainer}>
+    <Stack display={"flex"} flexDirection="column" alignItems="center" marginTop={"50px"}>
       <CircularProgress />
-    </div>
+    </Stack>
+
   );
 }
