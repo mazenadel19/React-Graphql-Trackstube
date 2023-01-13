@@ -6,7 +6,7 @@ import { GET_QUEUED_SONGS } from "./queries";
 
 const link = new WebSocketLink(
   new SubscriptionClient(
-    "wss://react-graphql-myspace.herokuapp.com/v1/graphql",
+    "wss://learninggraphqlz.hasura.app/v1/graphql",
     {
       reconnect: true,
     }
